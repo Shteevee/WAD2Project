@@ -47,8 +47,8 @@ class Comment(models.Model):
     comment_max_length = 200
     comment = models.CharField(max_length=comment_max_length)
     date = models.DateTimeField(auto_now_add=True)
-    commenter = models.ForeignKey(UserProfile)
-    page = models.ForeignKey(Page)
+    commenter = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    page = models.ForeignKey(Page, on_delete=models.CASCADE)
 
     ## Comments are deleted when the user who wrote it
     ## or the page commented on is deleted.
@@ -57,4 +57,4 @@ class Comment(models.Model):
         return self.comment  ## May need changed?
 
     def __unicode__(self):
-        return self.comment  ## May need changed?
+		return self.comment ## May need changed?
