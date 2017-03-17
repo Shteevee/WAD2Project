@@ -35,6 +35,10 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
     picture = models.ImageField(upload_to='profile_images', blank=True)
     owner = models.BooleanField(default=False)
+    # Users need a slug for the account page
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(UserProfile, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.user.username

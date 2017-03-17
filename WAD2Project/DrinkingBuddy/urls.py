@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'contactUs$', views.contactUs, name='contactUs'),
     url(r'barPages$', views.barPages, name='barPages'),
     url(r'signUp$', views.signUp, name='signUp'),
-    url(r'barPages/(?P<bar_name_slug>[\w\-]+)/$', views.bar, name='bar'),
+    url(r'barPages/(?P<page_name_slug>[\w\-]+)/$', views.bar, name='bar'),
+    # url(r'myAccount/(?P<user_name_slug>[\w\-]+)/$', views.myAccount, name='myAccount')
     ]
