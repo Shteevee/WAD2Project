@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from DrinkingBuddy import models
+from DrinkingBuddy.models import Page, UserProfile
 
 
 class PageForm(forms.ModelForm):
@@ -14,9 +14,9 @@ class PageForm(forms.ModelForm):
     picture = forms.ImageField(help_text = "Please add an image of the bar.")
 
     # This may need changing?
-    price = forms.TextField(widget = forms.HiddenInput(), initial=[])
-    quality = forms.TextField(widget=forms.HiddenInput(), initial=[])
-    atmosphere = forms.TextField(widget=forms.HiddenInput(), initial=[])
+    price = forms.CharField(widget=forms.HiddenInput(), initial=[])
+    quality = forms.CharField(widget=forms.HiddenInput(), initial=[])
+    atmosphere = forms.CharField(widget=forms.HiddenInput(), initial=[])
 
     class Meta:
         # Provide an association between the ModelForm and a model
@@ -24,15 +24,15 @@ class PageForm(forms.ModelForm):
         fields = ('name','address','description')
 
 
-class UserForm(form.ModelForm):
-    password = forms.CharField(widget = forms)
+class UserForm(forms.ModelForm):
+    password = forms.CharField(widget = forms.PasswordInput())
 
     class Meta:
         model = User
         fields = ('username', 'email', 'password')
 
 
-class UserProfileForm(form.ModelForm):
+class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields('picture', 'owner')
+        fields = ('picture', 'owner')

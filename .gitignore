@@ -1,3 +1,4 @@
-# Logs and databases #
-######################
+# Databases & migrations #
+##########################
 *.sqlite3
+WAD2Project/DrinkingBuddy/migrations/*
