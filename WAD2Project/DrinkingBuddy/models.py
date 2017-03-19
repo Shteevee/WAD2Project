@@ -38,10 +38,34 @@ class Page(models.Model):
     quality = models.TextField(validators=[validate_comma_separated_integer_list])
     atmosphere = models.TextField(validators=[validate_comma_separated_integer_list])
     ## Ratings are stored as comma seperated lists of integers
-    ## Averages must be calculated when page is loaded
+    avgPrice = models.FloatField(default=0.0)
+    avgQuality = models.FloatField(default=0.0)
+    avgAtmos = models.FloatField(default=0.0)
+	## Averages calculated when model is saved
+    avgRating = models.FloatField(default=0.0)
+	## Average of all 3 categories
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
+        self.avgPrice = 0.0
+        self.avgQuality = 0.0
+        self.avgAtmos = 0.0
+        if self.price != "":
+            pRatings = self.price.split(",")
+            for rating in pRatings:
+                self.avgPrice += int(rating)
+            self.avgPrice = self.avgPrice / len(pRatings)
+        if self.quality != "":
+            qRatings = self.quality.split(",")
+            for rating in qRatings:
+                self.avgQuality += int(rating)
+            self.avgQuality = self.avgQuality / len(qRatings)
+        if self.atmosphere != "":
+            aRatings = self.atmosphere.split(",")
+            for rating in aRatings:
+                self.avgAtmos += int(rating)
+            self.avgAtmos = self.avgAtmos / len(aRatings)
+        self.avgRating = (self.avgPrice + self.avgQuality + self.avgAtmos) / 3
         super(Page, self).save(*args, **kwargs)
 
     def __str__(self):

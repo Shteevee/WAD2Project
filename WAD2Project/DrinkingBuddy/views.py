@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from DrinkingBuddy.models import Page, Comment, UserProfile
-from DrinkingBuddy.forms import UserForm, UserProfileForm
+from DrinkingBuddy.forms import UserForm, UserProfileForm, CommentForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
@@ -11,7 +11,10 @@ def index(request):
     context_dict = {}
     recently_added = Page.objects.order_by("-added")[:5]
     context_dict["recent"] = recently_added
+    highest_rated = Page.objects.order_by("-avgRating")[:5]
+    context_dict["highest_rated"] = highest_rated
     return HttpResponse("Hello World!")
+##  return render(request, "index.html", context_dict)
 
 
 def contactUs(request):
@@ -20,10 +23,14 @@ def contactUs(request):
 
 
 def barPages(request):
-    # Need to get the search term and filter by it
-    # we will need to think of a way to do this
-    # page_list = Page.object.filter(address = search_term)
-    # context_dict['pages'] = page_list
+    context_dict = {}
+    if request.method == "POST":
+        search_term = request.POST.get("search_term")
+        page_list = Page.object.filter(Q(name__icontains=search_term) | Q(description__icontains=search_term))
+    else:
+	    page_list = Page.object.all()
+    context_dict["pages"] = page_list
+##  return render(request, "DrinkingBuddy/barPages.html", context_dict)
     return HttpResponse("Bar Pages")
 
 
@@ -82,61 +89,63 @@ def logOut(request):
 
 def bar(request, page_name_slug):
     context_dict = {}
-
     try:
         #Puts all the page object in the context dictionary
         #ready to pass them with render
 		page = Page.objects.get(slug = page_name_slug)
 		context_dict['page'] = page
-		#Processes ratings, converting from comma separated integer list
-		#to array of integers, then taking the average and
-		#passing the average to the template
-		# Price
-		pRatingList = page.price
-		pRatings = pRatingList.split(",")
-		avgRating = 0
-		for rating in pRatings:
-			avgRating += int(rating)
-		avgRating = avgRating / len(pRatings)
-		context_dict["priceRating"] = avgRating
-		# Quality
-		qRatingList = page.quality
-		qRatings = qRatingList.split(",")
-		avgRating = 0
-		for rating in qRatings:
-			avgRating += int(rating)
-		avgRating = avgRating / len(qRatings)
-		context_dict["qualityRating"] = avgRating
-		# Atmosphere
-		aRatingList = page.atmosphere
-		aRatings = aRatingList.split(",")
-		avgRating = 0
-		for rating in aRatings:
-			avgRating += int(rating)
-		avgRating = avgRating / len(aRatings)
-		context_dict["atmosphereRating"] = avgRating
-		
 		#Adds all comments for the bar to the context dictionary
 		comments = Page.objects.filter(name=page)
 		context_dict["comments"] = comments
-
+		form = CommentForm()
+		context_dict["form"] = form
+		if request.method =="POST":
+			form = CommentForm(request.POST)
+			if form.is_valid():
+				if page:
+					comment = form.save(commit=False)
+					comment.page = page
+					comment.commenter = request.user
+					comment.save()
+##					return render(request, "DrinkingBuddy/bar.html", context_dict)
+					return HttpResponse(page_name_slug)
+			else:
+				print(form.errors)
     except Page.DoesNotExist:
 		context_dict['page'] = None
 		context_dict["comments"] = None
-		context_dict["priceRating"] = None
-		context_dict["qualityRating"] = None
-		context_dict["atmosphereRating"] = None
     return HttpResponse(page_name_slug)
 ##    return render(request, "DrinkingBuddy/bar.html", context_dict)
 
 
+@login_required
+def addBar(request, user_name_slug):
+	form = PageForm()
+	if request.method == "POST":
+		form = CategoryForm(request.POST)
+		if form.is_valid():
+			page = form.save(commit=False)
+			page.owner = request.user
+			page.save()
+			return myAccount(request)
+		else:
+			print(form.errors)
+##	return render(request, "DrinkingBuddy/myAccount/addBar.html", {"form": form})
+	return HttpRequest("Add Bar" + user_name_slug)
+
+
+@login_required
 def myAccount(request, user_name_slug):
 	context_dict = {}
 	try:
 		#Puts UserProfile object into context dictionary
 		profile = UserProfile.objects.get(slug = user_name_slug)
 		context_dict["profile"] = profile
+		if profile.owner:
+			own_bar = Page.objects.get(owner = profile)
+			context_dict["own_bar"] = own_bar
 	except UserProfile.DoesNotExist:
 		context_dict["profile"] = None
+		context_dict["own_bar"] = None
 	return HttpResponse(user_name_slug)
 ##	return render(request, "DrinkingBuddy/myAccount.html", context_dict)
