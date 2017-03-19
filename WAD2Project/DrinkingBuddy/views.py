@@ -8,6 +8,9 @@ from django.core.urlresolvers import reverse
 
 
 def index(request):
+    context_dict = {}
+    recently_added = Page.objects.order_by("-added")[:5]
+    context_dict["recent"] = recently_added
     return HttpResponse("Hello World!")
 
 

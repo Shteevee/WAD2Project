@@ -31,6 +31,7 @@ class Page(models.Model):
     picture = models.ImageField(upload_to='bar_images', blank=True)
     description = models.CharField(max_length=desc_max_length)
     address = models.CharField(max_length=addr_max_length)
+    added = models.DateTimeField(auto_now_add=True)
     owner = models.OneToOneField(UserProfile, limit_choices_to={"owner": True}, on_delete=models.CASCADE)
 	## Bars are deleted from website if owner deletes account
     price = models.TextField(validators=[validate_comma_separated_integer_list])
