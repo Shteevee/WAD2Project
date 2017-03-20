@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from DrinkingBuddy.models import Page, Comment, UserProfile
-from DrinkingBuddy.forms import UserForm, UserProfileForm, CommentForm, RatingForm
+from DrinkingBuddy.forms import UserForm, UserProfileForm, CommentForm, PageForm, RatingForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
@@ -145,7 +145,7 @@ def addBar(request, user_name_slug):
 		else:
 			print(form.errors)
 ##	return render(request, "DrinkingBuddy/myAccount/addBar.html", {"form": form})
-	return HttpRequest("Add Bar" + user_name_slug)
+	return HttpResponse("Add Bar " + user_name_slug)
 
 
 @login_required
