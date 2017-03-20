@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from DrinkingBuddy.models import Page, Comment, UserProfile
-from DrinkingBuddy.forms import UserForm, UserProfileForm, CommentForm
+from DrinkingBuddy.forms import UserForm, UserProfileForm, CommentForm, RatingForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
@@ -26,9 +26,9 @@ def barPages(request):
     context_dict = {}
     if request.method == "POST":
         search_term = request.POST.get("search_term")
-        page_list = Page.object.filter(Q(name__icontains=search_term) | Q(description__icontains=search_term))
+        page_list = Page.objects.filter(Q(name__icontains=search_term) | Q(description__icontains=search_term))
     else:
-	    page_list = Page.object.all()
+	    page_list = Page.objects.all()
     context_dict["pages"] = page_list
 ##  return render(request, "DrinkingBuddy/barPages.html", context_dict)
     return HttpResponse("Bar Pages")
@@ -97,23 +97,37 @@ def bar(request, page_name_slug):
 		#Adds all comments for the bar to the context dictionary
 		comments = Page.objects.filter(name=page)
 		context_dict["comments"] = comments
-		form = CommentForm()
-		context_dict["form"] = form
+		# Adds ratings form to context dict
+		rform = RatingForm(prefix="rform")
+		context_dict["rating_form"] = rform
+		# Adds comment form to context dict
+		cform = CommentForm(prefix="cform")
+		context_dict["comment_form"] = cform
 		if request.method =="POST":
-			form = CommentForm(request.POST)
-			if form.is_valid():
-				if page:
-					comment = form.save(commit=False)
-					comment.page = page
-					comment.commenter = request.user
-					comment.save()
-##					return render(request, "DrinkingBuddy/bar.html", context_dict)
-					return HttpResponse(page_name_slug)
+			rform = RatingForm(request.POST, prefix="rform")
+			if rform.is_valid():
+				# Check each rating exists, add to list in model
+				if rform.priceRating:
+					page.price = price + "," + rform.priceRating
+				if rform.qualityRating:
+					page.quality = quality + "," + rform.qualityRating
+				if rform.atmosRating:
+					page.atmopshere = atmopshere + "," + rform.atmosRating
+				page.save()
+			cform = CommentForm(request.POST, prefix="cform")
+			if cform.is_valid():
+				comment = cform.save(commit=False)
+				comment.page = page
+				comment.commenter = request.user
+				comment.save()
+				## Program will continue to return statement at bottom of function
 			else:
 				print(form.errors)
     except Page.DoesNotExist:
 		context_dict['page'] = None
 		context_dict["comments"] = None
+		context_dict["rating_form"] = None
+		context_dict["comment_form"] = None
     return HttpResponse(page_name_slug)
 ##    return render(request, "DrinkingBuddy/bar.html", context_dict)
 

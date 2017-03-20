@@ -29,6 +29,13 @@ class PageForm(forms.ModelForm):
         exclude = ('owner',)
 
 
+class RatingForm(forms.Form):
+	RATING_CHOICES = (("1", "1 Star"), ("2", "2 Stars"), ("3", "3 Stars"), ("4", "4 Stars"), ("5", "5 Stars"))
+	priceRating = forms.ChoiceField(choices = RATING_CHOICES)
+	qualityRating = forms.ChoiceField(choices = RATING_CHOICES)
+	atmosRating = forms.ChoiceField(choices = RATING_CHOICES)
+
+
 class CommentForm(forms.ModelForm):
 	comment = forms.CharField(max_length = Comment.comment_max_length)
 	
