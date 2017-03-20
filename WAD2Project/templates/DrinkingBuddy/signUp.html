@@ -1,0 +1,26 @@
+{% extends 'DrinkingBuddy/base.html' %}
+{% load staticfiles %}
+
+{% block main_block %}
+
+  <div class="row">
+
+  <!-- Sign up... -->
+  <div class="container" id="wrap">
+	  <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <form action="./index.html" method="post" accept-charset="utf-8" class="form" role="form">
+        <legend>Sign Up</legend>
+			{% csrf_token %}
+			{{ user_form.as_p }}
+			{{ profile_form.as_p }}
+            <div class="centering">
+                <p><button class="btn btn-lg btn-danger" type="submit">Register</button></p>
+            </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+{% endblock %}

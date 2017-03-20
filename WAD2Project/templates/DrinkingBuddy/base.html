@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load staticfiles %}
 <html lang="en">
 
 <head>
@@ -13,7 +14,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-  <link href="./style.css" rel="stylesheet">
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Baloo+Bhaina" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Nova+Mono" rel="stylesheet"> 
@@ -32,19 +33,26 @@
         <span class="icon-bar"></span>
       </button>
       <div class="home">
-        <a class="navbar-brand" href="./index.html"><img src="./images/home.png"></a>
+        <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'images/home.png' %}"></a>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
-      <form class="navbar-form navbar-right">
+	  {% if user.is_authenticated %}
+	  <form class="navbar-form navbar-right" action="{% url 'logOut' %}">
+	  <button type="submit" class="btn btn-success">Log Out</button>
+	  </form>
+	  {% else %}
+        <form class="navbar-form navbar-right" method="post" action="{% url 'logIn' %}">
+		{% csrf_token %}
         <div class="form-group">
-          <input type="text" placeholder="Username" class="form-control">
+          <input type="text" placeholder="Username" name="username" class="form-control">
         </div>
         <div class="form-group">
-          <input type="password" placeholder="Password" class="form-control">
+          <input type="password" placeholder="Password "name="password" class="form-control">
         </div>
         <button type="submit" class="btn btn-success">Login</button>
-      </form>
+		</form>
+	  {% endif %}
     </div>
   </div>
 </nav>
@@ -58,36 +66,8 @@
 
 <!-- Main. -->
 <div class="container">
-
-  <div class="row">
-
-  <!-- Sign up... -->
-  <div class="container" id="wrap">
-	  <div class="row">
-      <div class="col-md-6 col-md-offset-3">
-        <form action="./index.html" method="post" accept-charset="utf-8" class="form" role="form">
-        <legend>Sign Up</legend>
-          <div class="row">
-            <div class="col-xs-6 col-md-6">
-              <input type="text" name="firstname" value="" class="form-control input-lg" placeholder="First Name" />                        </div>
-              <div class="col-xs-6 col-md-6">
-                <input type="text" name="lastname" value="" class="form-control input-lg" placeholder="Last Name" />                        </div>
-              </div>
-              <input type="text" name="email" value="" class="form-control input-lg" placeholder="Your Email" />
-              <input type="password" name="password" value="" class="form-control input-lg" placeholder="Password" />
-              <input type="password" name="confirm_password" value="" class="form-control input-lg" placeholder="Confirm Password" />
-              <div class="centering">
-                <p><button class="btn btn-lg btn-danger" type="submit">Register</button></p>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>            
-  </div>
-
-  </div>
-
+{% block main_block %}
+{% endblock %}
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

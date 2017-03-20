@@ -13,13 +13,11 @@ def index(request):
     context_dict["recent"] = recently_added
     highest_rated = Page.objects.order_by("-avgRating")[:5]
     context_dict["highest_rated"] = highest_rated
-    return HttpResponse("Hello World!")
-##  return render(request, "index.html", context_dict)
+    return render(request, "DrinkingBuddy/index.html", context_dict)
 
 
 def contactUs(request):
-    return HttpResponse("Contact Us!")
-##    return render(request, "DrinkingBuddy/contactUs.html", {})
+    return render(request, "DrinkingBuddy/contactUs.html", {})
 
 
 def barPages(request):
@@ -30,8 +28,7 @@ def barPages(request):
     else:
 	    page_list = Page.objects.all()
     context_dict["pages"] = page_list
-##  return render(request, "DrinkingBuddy/barPages.html", context_dict)
-    return HttpResponse("Bar Pages")
+    return render(request, "DrinkingBuddy/barPages.html", context_dict)
 
 
 def signUp(request):
@@ -50,6 +47,7 @@ def signUp(request):
 				profile.pictures = request.FILES["picture"]
 			profile.save()
 			registered = True
+			return HttpResponseRedirect(reverse('index'))
 		else:
 			print(user_form.errors, profile_form.errors)
 	else:
@@ -58,8 +56,7 @@ def signUp(request):
 	context_dict["user_form"] = user_form
 	context_dict["profile_form"] = profile_form
 	context_dict["registered"] = registered
-	return HttpResponse("Sign Up!")
-##	return render(request, "DrinkingBuddy/signUp.html", context_dict)
+	return render(request, "DrinkingBuddy/signUp.html", context_dict)
 
 
 def logIn(request):
@@ -77,8 +74,7 @@ def logIn(request):
 			print("Invalid login details: {0}, {1}".format(username, password))
 			return HttpResponse("Username or password incorrect.")
 	else:
-		return HttpResponse("Log in!")
-##	return render(request, "DrinkingBuddy/logIn.html", {})
+		return HttpResponseRedirect(reverse('index'))
 
 
 @login_required
@@ -128,8 +124,7 @@ def bar(request, page_name_slug):
 		context_dict["comments"] = None
 		context_dict["rating_form"] = None
 		context_dict["comment_form"] = None
-    return HttpResponse(page_name_slug)
-##    return render(request, "DrinkingBuddy/bar.html", context_dict)
+    return render(request, "DrinkingBuddy/bar.html", context_dict)
 
 
 @login_required
@@ -144,8 +139,7 @@ def addBar(request, user_name_slug):
 			return myAccount(request)
 		else:
 			print(form.errors)
-##	return render(request, "DrinkingBuddy/myAccount/addBar.html", {"form": form})
-	return HttpResponse("Add Bar " + user_name_slug)
+	return render(request, "DrinkingBuddy/myAccount/addBar.html", {"form": form})
 
 
 @login_required
@@ -161,5 +155,4 @@ def myAccount(request, user_name_slug):
 	except UserProfile.DoesNotExist:
 		context_dict["profile"] = None
 		context_dict["own_bar"] = None
-	return HttpResponse(user_name_slug)
-##	return render(request, "DrinkingBuddy/myAccount.html", context_dict)
+	return render(request, "DrinkingBuddy/myAccount.html", context_dict)

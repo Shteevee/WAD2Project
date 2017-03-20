@@ -1,0 +1,69 @@
+{% extends 'DrinkingBuddy/base.html' %}
+{% load staticfiles %}
+
+{% block main_block %}
+<div class="row">
+
+    <!-- Left. -->
+    <div class="col-md-4 viewed">
+      <h2>Highest rated bars...</h2>
+      {% if highest_rated %}
+	  <ul>
+		{% for page in highest_rated %}
+		<li><a href="{% url 'bar' page.slug %}">{{ page.name }}</a></li>
+		{% endfor%}
+	  </ul>
+	  {% else %}
+	  There are no bars.
+	  {% endif %}
+    </div>
+
+    <!-- Center. -->
+    <div class="col-md-4">
+
+      <!-- Search box. -->
+      <form action="./search-result.html" method="post" accept-charset="utf-8" class="form" role="form">
+      <div id="custom-search-input">
+        <div class="input-group col-md-12">
+          <input type="text" class="form-control input-lg" placeholder="Search for bars..." />
+          <span class="input-group-btn">
+            <button class="btn btn-info btn-lg" type="submit">
+              <i class="glyphicon glyphicon-search"></i>
+            </button>
+          </span>
+        </div>
+      </div>
+      </form>
+
+      <!-- Buttons. -->
+      <div class="centering">
+        <br/>
+        <img src="{% static 'images/drinkingbuddy.jpg' %}">        
+        <br/><br/>
+        <p>
+		  {% if user.is_authenticated %}
+		  {% else %}
+          <a href="{% url 'signUp' %}" class="btn btn-lg btn-danger">Sign Up</a>
+		  {% endif %}
+          <a href="{% url 'contactUs' %}"} class="btn btn-lg btn-danger">Contact Us</a>
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Right. -->
+    <div class="col-md-4 added">
+      <h2>Recently added bars...</h2>
+      {% if recent %}
+	  <ul>
+		{% for page in recent %}
+		<li><a href="{% url 'bar' page.slug %}">{{ page.name }}</a></li>
+		{% endfor%}
+	  </ul>
+	  {% else %}
+	  There are no bars.
+	  {% endif %}
+    </div>
+
+  </div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'DrinkingBuddy/base.html' %}
+{% load staticfiles %}
+
+{% block main_block %}
+  <!-- Row 1. -->
+  <div class="row">
+
+    <!-- Left. -->
+    <div class="col-md-4 viewed">
+      <!-- Bar image. -->
+      <img src="./images/pub1.jpg">
+    </div>
+
+    <!-- Center. -->
+    <div class="col-md-4">
+      <h2>Bar info</h2>
+      <h3>Location: ...</h3>
+      <h3>Bar owner: ...</h3>
+    </div>
+
+    <!-- Right. -->
+    <div class="col-md-4 added">
+      <div>
+        <iframe width="250" height="250" frameborder="0"
+          src="https://www.bing.com/maps/embed/viewer.aspx?v=3&amp;cp=55.849710~-4.246826&amp;lvl=10&amp;w=500&amp;h=400&amp;sty=r&amp;typ=d&amp;pp=&amp;ps=&amp;dir=0&amp;mkt=en-gb&amp;src=SHELL&amp;form=BMEMJS">
+        </iframe>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Row 2. -->
+  <div class="row">
+
+    <!-- Left. -->
+    <div class="col-md-4 viewed">
+      <h2>Price:</h2>
+        <img id="glass" src="./images/glass.jpg">
+      <h2>Atmosphere:</h2>
+        <img id="glass" src="./images/glass.jpg">
+        <img id="glass" src="./images/glass.jpg">
+      <h2>Quality (food/drink):</h2>
+        <img id="glass" src="./images/glass.jpg">
+        <img id="glass" src="./images/glass.jpg">
+        <img id="glass" src="./images/glass.jpg">
+    </div>
+
+    <!-- Center. -->
+    <div class="col-md-4">
+      <h2>Bar Reviews:</h2>
+      <iframe class="col-lg-12 col-md-12 col-sm-12" src="./bar-comments.html"></iframe>
+    </div>
+
+    <!-- Right. -->
+    <div class="col-md-4 added centering">
+      <br/><br/><br/>
+      <p><a href="./bar-review.html" class="btn btn-lg btn-danger">Leave a review!</a></p>
+    </div>
+
+  </div>
+  
+{% endblock %}
