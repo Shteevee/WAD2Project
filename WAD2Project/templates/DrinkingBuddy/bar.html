@@ -5,22 +5,28 @@
   <!-- Row 1. -->
   <div class="row">
 
+    {% if page %}
     <!-- Left. -->
-    <div class="col-md-4 viewed">
+    <div class="col-md-4">
       <!-- Bar image. -->
-      <img src="./images/pub1.jpg">
+	  {% if page.picture %}
+      <img src="{{ page.picture.url }}">
+	  {% else %}
+	  <img src="{% static 'images/no-image.png' %}">
+	  {% endif %}
     </div>
 
     <!-- Center. -->
     <div class="col-md-4">
-      <h2>Bar info</h2>
-      <h3>Location: ...</h3>
-      <h3>Bar owner: ...</h3>
+      <h2>{{ page.name }}</h2>
+      <h3>Location: {{ page.address }}</h3>
+      <h3>Bar owner: {{ page.owner }}</h3>
     </div>
 
     <!-- Right. -->
     <div class="col-md-4 added">
       <div>
+	    <!-- Replace with Google Maps API if we have time -->
         <iframe width="250" height="250" frameborder="0"
           src="https://www.bing.com/maps/embed/viewer.aspx?v=3&amp;cp=55.849710~-4.246826&amp;lvl=10&amp;w=500&amp;h=400&amp;sty=r&amp;typ=d&amp;pp=&amp;ps=&amp;dir=0&amp;mkt=en-gb&amp;src=SHELL&amp;form=BMEMJS">
         </iframe>
@@ -35,14 +41,47 @@
     <!-- Left. -->
     <div class="col-md-4 viewed">
       <h2>Price:</h2>
-        <img id="glass" src="./images/glass.jpg">
+        <img id="glass" src="{% static '/images/glass.jpg' %}">
+		{% if page.avgPrice >= 1.5 %}
+		<img id="glass" src="{% static '/images/glass.jpg' %}">
+		{% endif %}
+		{% if page.avgPrice >= 2.5 %}
+		<img id="glass" src="{% static '/images/glass.jpg' %}">
+		{% endif %}
+		{% if page.avgPrice >= 3.5 %}
+		<img id="glass" src="{% static '/images/glass.jpg' %}">
+		{% endif %}
+		{% if page.avgPrice >= 4.5 %}
+		<img id="glass" src="{% static '/images/glass.jpg' %}">
+		{% endif %}
       <h2>Atmosphere:</h2>
-        <img id="glass" src="./images/glass.jpg">
-        <img id="glass" src="./images/glass.jpg">
+        <img id="glass" src="{% static '/images/glass.jpg' %}">
+		{% if page.avgAtmos >= 1.5 %}
+		<img id="glass" src="{% static '/images/glass.jpg' %}">
+		{% endif %}
+		{% if page.avgAtmos >= 2.5 %}
+		<img id="glass" src="{% static '/images/glass.jpg' %}">
+		{% endif %}
+		{% if page.avgAtmos >= 3.5 %}
+		<img id="glass" src="{% static '/images/glass.jpg' %}">
+		{% endif %}
+		{% if page.avgAtmos >= 4.5 %}
+		<img id="glass" src="{% static '/images/glass.jpg' %}">
+		{% endif %}
       <h2>Quality (food/drink):</h2>
-        <img id="glass" src="./images/glass.jpg">
-        <img id="glass" src="./images/glass.jpg">
-        <img id="glass" src="./images/glass.jpg">
+        <img id="glass" src="{% static '/images/glass.jpg' %}">
+		{% if page.avgQuality >= 1.5 %}
+		<img id="glass" src="{% static '/images/glass.jpg' %}">
+		{% endif %}
+		{% if page.avgQuality >= 2.5 %}
+		<img id="glass" src="{% static '/images/glass.jpg' %}">
+		{% endif %}
+		{% if page.avgQuality >= 3.5 %}
+		<img id="glass" src="{% static '/images/glass.jpg' %}">
+		{% endif %}
+		{% if page.avgQuality >= 4.5 %}
+		<img id="glass" src="{% static '/images/glass.jpg' %}">
+		{% endif %}
     </div>
 
     <!-- Center. -->
@@ -58,5 +97,6 @@
     </div>
 
   </div>
+  {% endif %}
   
 {% endblock %}

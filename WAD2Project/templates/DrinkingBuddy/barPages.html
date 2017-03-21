@@ -3,12 +3,35 @@
 
 {% block main_block %}
 
-  <div class="row">
-
     <!-- Bar pages (search results). -->
-    <p>search results...</p>
-
-  </div>
-
+    <div class="centering">
+	  {% if pages %}
+		{% for page in pages %}
+		  <div class="list-group">
+			<a href="{% url 'bar' page.slug %}" class="list-group-item">
+			  <div class="media">
+			    <div class="media-left media-top">
+				  {% if page.picture %}
+				  <img src="{{ page.picture.url }}" class="media-object">
+				  {% else %}
+				  <img src="{% static 'images/no-image.png' %}" class="media-object">
+				  {% endif %}
+				</div>
+				<div class="media-body">
+				  <h2 class="media-heading">{{ page.name }}</h2>
+				  <dl>{{ page.description }}</dl>
+				  <dl>{{ page.address }}</dl>
+				</div>
+				<div class="media-right">
+				  <!-- add ratings here -->
+				</div>
+			  </div>
+			</a>
+	      </div>
+		{% endfor %}
+	  {% else %}
+	  <p>There are no bars</p>
+	  {% endif %}
+	</div>
 
 {% endblock %}
