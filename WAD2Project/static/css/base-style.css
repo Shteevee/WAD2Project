@@ -91,7 +91,7 @@ div.bars {
   font-size: 23px;
 }
 
-.container .row img {
+.container .row img.index_banner {
   width: 100%;
 }
 
@@ -129,7 +129,12 @@ img.media-object {
 /*
  * Bar page
  */
-.col-md-4 img {
+.col-md-4 img.bar_image {
+	width: 100%;
 	max-width: 400px;
 	max-height: 400px;
+}
+img.profile_picture{
+	max-width: 48px;
+	max-height: 48px;
 }

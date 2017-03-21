@@ -30,14 +30,14 @@ class PageForm(forms.ModelForm):
 
 
 class RatingForm(forms.Form):
-	RATING_CHOICES = (("1", "1 Star"), ("2", "2 Stars"), ("3", "3 Stars"), ("4", "4 Stars"), ("5", "5 Stars"))
-	priceRating = forms.ChoiceField(choices = RATING_CHOICES)
-	qualityRating = forms.ChoiceField(choices = RATING_CHOICES)
-	atmosRating = forms.ChoiceField(choices = RATING_CHOICES)
+	RATING_CHOICES = (("1", "1 Glass"), ("2", "2 Glasses"), ("3", "3 Glasses"), ("4", "4 Glasses"), ("5", "5 Glasses"))
+	priceRating = forms.ChoiceField(choices = RATING_CHOICES, label="Price")
+	qualityRating = forms.ChoiceField(choices = RATING_CHOICES, label="Quality")
+	atmosphereRating = forms.ChoiceField(choices = RATING_CHOICES, label="Atmosphere")
 
 
 class CommentForm(forms.ModelForm):
-	comment = forms.CharField(max_length = Comment.comment_max_length)
+	comment = forms.CharField(widget=forms.Textarea(attrs={"class": "form-control input-lg"}), max_length = Comment.comment_max_length, label="Comment (max. 200 characters)")
 	
 	class Meta:
 		model = Comment

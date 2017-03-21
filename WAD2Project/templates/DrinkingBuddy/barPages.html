@@ -6,8 +6,8 @@
     <!-- Bar pages (search results). -->
     <div class="centering">
 	  {% if pages %}
-		{% for page in pages %}
-		  <div class="list-group">
+		<div class="list-group">
+		  {% for page in pages %}
 			<a href="{% url 'bar' page.slug %}" class="list-group-item">
 			  <div class="media">
 			    <div class="media-left media-top">
@@ -27,8 +27,8 @@
 				</div>
 			  </div>
 			</a>
-	      </div>
-		{% endfor %}
+		  {% endfor %}
+	    </div>
 	  {% else %}
 	  <p>There are no bars</p>
 	  {% endif %}

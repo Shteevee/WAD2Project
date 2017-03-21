@@ -10,9 +10,9 @@
     <div class="col-md-4">
       <!-- Bar image. -->
 	  {% if page.picture %}
-      <img src="{{ page.picture.url }}">
+      <img class="bar_image" src="{{ page.picture.url }}">
 	  {% else %}
-	  <img src="{% static 'images/no-image.png' %}">
+	  <img class="bar_image" src="{% static 'images/no-image.png' %}">
 	  {% endif %}
     </div>
 
@@ -85,18 +85,57 @@
     </div>
 
     <!-- Center. -->
-    <div class="col-md-4">
-      <h2>Bar Reviews:</h2>
-      <iframe class="col-lg-12 col-md-12 col-sm-12" src="./bar-comments.html"></iframe>
-    </div>
-
-    <!-- Right. -->
-    <div class="col-md-4 added centering">
-      <br/><br/><br/>
-      <p><a href="./bar-review.html" class="btn btn-lg btn-danger">Leave a review!</a></p>
+    <div class="col-md-8">
+      <h2>Comments</h2>
+	    {% if comments %}
+	      <div class="list-group">
+		    {% for comment in comments %}
+			  <div class="list-group-item">
+			    <div class="media">
+				  <div class="media-left media-top">
+				    {% if comment.commenter.picture %}
+				      <img class="profile_picture" src="{{ comment.commenter.picture.url }}">
+					{% else %}
+					  <img class="profile_picture" src="{% static 'images/no-user-image.png' %}">
+					{% endif %}
+				  </div>
+				  <div class="media-body">
+				    <h3 class="media-heading">{{ comment.commenter }}</h4>
+					<dl>{{ comment.comment }}</dl>
+					<small>{{ comment.date }}</small>
+				  </div>
+				</div>
+			  </div>
+			{% endfor %}
+		  </div>
+		{% else %}
+		<p>There are no comments on this bar yet.</p>
+		{% endif %}
     </div>
 
   </div>
+  
+  <!-- Row 3 -->
+  <div class="row">
+    <!-- Left -->
+	<div class="col-md-4">
+	  <form action="{% url 'bar' page.slug %}" method="post" accept-charset="utf-8" class="form" role="form">
+	    {% csrf_token %}
+	    <h2>Rate:</h2>
+		{{ rating_form.as_p }}
+		<button type="sumbit" class="btn btn-success">Submit Rating</button>
+	  </form>
+	</div>
+	  <!-- Center -->
+	  <div class="col-md-8">
+	    <form action="{% url 'bar' page.slug %}" method="post" accept-charset="utf-8" class="form" role="form">
+		  {% csrf_token %}
+	      {{ comment_form.as_p }}
+	      <button type="sumbit" class="btn btn-success">Submit Comment</button>
+		</form>
+      </div>
+	</form>
+  </div>	
   {% endif %}
   
 {% endblock %}

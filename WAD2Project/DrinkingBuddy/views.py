@@ -92,7 +92,7 @@ def bar(request, page_name_slug):
 		page = Page.objects.get(slug = page_name_slug)
 		context_dict['page'] = page
 		#Adds all comments for the bar to the context dictionary
-		comments = Page.objects.filter(name=page)
+		comments = Comment.objects.filter(page=page)
 		context_dict["comments"] = comments
 		# Adds ratings form to context dict
 		rform = RatingForm(prefix="rform")
@@ -104,22 +104,22 @@ def bar(request, page_name_slug):
 			rform = RatingForm(request.POST, prefix="rform")
 			if rform.is_valid():
 				# Check each rating exists, add to list in model
-				if rform.priceRating:
-					page.price = price + "," + rform.priceRating
-				if rform.qualityRating:
-					page.quality = quality + "," + rform.qualityRating
-				if rform.atmosRating:
-					page.atmopshere = atmopshere + "," + rform.atmosRating
+				if rform["priceRating"].value():
+					page.price = page.price + "," + rform["priceRating"].value()
+				if rform["qualityRating"].value():
+					page.quality = page.quality + "," + rform["qualityRating"].value()
+				if rform["atmosphereRating"].value():
+					page.atmosphere = page.atmosphere + "," + rform["atmosphereRating"].value()
 				page.save()
 			cform = CommentForm(request.POST, prefix="cform")
 			if cform.is_valid():
 				comment = cform.save(commit=False)
 				comment.page = page
-				comment.commenter = request.user
+				comment.commenter = UserProfile.objects.get(user=request.user)
 				comment.save()
 				## Program will continue to return statement at bottom of function
 			else:
-				print(form.errors)
+				print(cform.errors)
     except Page.DoesNotExist:
 		context_dict['page'] = None
 		context_dict["comments"] = None
