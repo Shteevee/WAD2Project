@@ -2,6 +2,68 @@
 {% load staticfiles %}
 
 {% block main_block %}
+<head>
+        <style type="text/css">
+        #map
+        {
+          height:400px;
+          width:400px;
+          display:block;
+        }
+      </style>
+      <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDIUMEk4lAYgO72FjqCrinbnPIrt-trHAk"></script>
+      <script type="text/javascript">
+	  
+		 function getPosition(callback) {
+            var geocoder = new google.maps.Geocoder();
+            var postcode = "{{ postcode }}";
+			
+
+            geocoder.geocode({'address': postcode}, function(results, status) 
+            {   
+              if (status == google.maps.GeocoderStatus.OK) 
+              {
+                callback({
+                  latt: results[0].geometry.location.lat(),
+                  long: results[0].geometry.location.lng()
+                });
+              }
+            });
+          }
+
+          function setup_map(latitude, longitude) { 
+            var _position = { lat: latitude, lng: longitude};
+            
+            var mapOptions = {
+              zoom: 16,
+              center: _position
+            }
+
+            var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+            var marker = new google.maps.Marker({
+              position: mapOptions.center,
+              map: map
+            });
+          }
+
+         window.onload = function() {
+            setup_map(51.5073509, -0.12775829999998223);
+			
+
+            document.getElementById("form").onsubmit = function() {
+              getPosition(function(position){
+
+                var text = document.getElementById("text")
+                text.innerHTML = "Marker position: { Longitude: "+position.long+ ",  Latitude:"+position.latt+" }";
+
+                setup_map(position.latt, position.long);
+              });
+            }
+          }
+      </script>  
+   </head>
+
   <!-- Row 1. -->
   <div class="row">
 
@@ -25,12 +87,7 @@
 
     <!-- Right. -->
     <div class="col-md-4 added">
-      <div>
-	    <!-- Replace with Google Maps API if we have time -->
-        <iframe width="250" height="250" frameborder="0"
-          src="https://www.bing.com/maps/embed/viewer.aspx?v=3&amp;cp=55.849710~-4.246826&amp;lvl=10&amp;w=500&amp;h=400&amp;sty=r&amp;typ=d&amp;pp=&amp;ps=&amp;dir=0&amp;mkt=en-gb&amp;src=SHELL&amp;form=BMEMJS">
-        </iframe>
-      </div>
+	    <div id="map"></div>
     </div>
 
   </div>
@@ -119,20 +176,24 @@
   <div class="row">
     <!-- Left -->
 	<div class="col-md-4">
+	  {% if user.is_authenticated %}
 	  <form action="{% url 'bar' page.slug %}" method="post" accept-charset="utf-8" class="form" role="form">
 	    {% csrf_token %}
 	    <h2>Rate:</h2>
 		{{ rating_form.as_p }}
 		<button type="sumbit" class="btn btn-success">Submit Rating</button>
 	  </form>
+	 {% endif %}
 	</div>
 	  <!-- Center -->
 	  <div class="col-md-8">
+	  {% if user.is_authenticated %}
 	    <form action="{% url 'bar' page.slug %}" method="post" accept-charset="utf-8" class="form" role="form">
 		  {% csrf_token %}
 	      {{ comment_form.as_p }}
 	      <button type="sumbit" class="btn btn-success">Submit Comment</button>
 		</form>
+	  {% endif %}
       </div>
 	</form>
   </div>	

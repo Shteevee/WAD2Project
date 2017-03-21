@@ -119,13 +119,13 @@ def populate():
 		 "comments": bar2_comments},
 		 {"name": "Oran Mor",
 		 "desc": "A third bar.",
-		 "addr": "731-735 Great Western Road G12 8QX",
+		 "addr": "731-735 Great Western Road, G12 8QX",
 		 "price": "5,5,5,5,5",
 		 "atmos": "5,5,5,5,5",
 		 "qual": "5,5,5,5,5",
 		 "owner": "Marie Curie",
 		 "picture": "bar_images/oran_mor.jpg",
-		 "comments": bar3_comments}
+		 "comments": bar3_comments},
 		 {"name": "Sloans",
 		 "desc": "A bar.",
 		 "addr": "62 Argyll Arcade, G2 8BG",
@@ -152,10 +152,10 @@ def populate():
 		 "qual": "5,5,5,5,5",
 		 "owner": "Blaise Pascal",
 		 "picture": "bar_images/oran_mor.jpg",
-		 "comments": bar6_comments}
+		 "comments": bar6_comments},
 		 {"name": "Curlers Rest",
 		 "desc": "A bar.",
-		 "addr": "256-260 Byres Road G12 8SH",
+		 "addr": "256-260 Byres Road, G12 8SH",
 		 "price": "1,2,3,4,5",
 		 "atmos": "1,2,3,4,5",
 		 "qual": "1,2,3,4,5",
@@ -164,7 +164,7 @@ def populate():
 		 "comments": bar1_comments},
 		{"name": "The Rock",
 		 "desc": "A second bar.",
-		 "addr": "205 Hyndland Road G12 9HE",
+		 "addr": "205 Hyndland Road, G12 9HE",
 		 "price": "1,1,1,1,1",
 		 "atmos": "1,1,1,1,1",
 		 "qual": "1,1,1,1,1",
@@ -179,16 +179,16 @@ def populate():
 		 "qual": "5,5,5,5,5",
 		 "owner": "David Blackwell",
 		 "picture": "bar_images/humming_bird.jpg",
-		 "comments": bar3_comments}
+		 "comments": bar3_comments},
 		 {"name": "The Sparkle Horse",
 		 "desc": "A third bar.",
-		 "addr": "16 Dowanhill Street,G11 5QS",
+		 "addr": "16 Dowanhill Street, G11 5QS",
 		 "price": "5,5,5,5,5",
 		 "atmos": "5,5,5,5,5",
 		 "qual": "5,5,5,5,5",
 		 "owner": "Ronald Graham",
 		 "picture": "bar_images/sparkle_horse.jpg",
-		 "comments": bar4_comments}
+		 "comments": bar4_comments},
 		 {"name": "The Lab",
 		 "desc": "A third bar.",
 		 "addr": "26 Springfield Court, G1  3DQ",
@@ -197,13 +197,13 @@ def populate():
 		 "qual": "5,5,5,5,5",
 		 "owner": "Jesse Douglas",
 		 "picture": "bar_images/lab.jpg",
-		 "comments": bar5_comments}
+		 "comments": bar5_comments},
 		 ]
 		 
 	for user in users:
 		add_user(user["username"], user["password"], user["email"], user["owner"])
 	for bar in bars:
-		page = add_bar(bar["name"], bar["desc"], bar["addr"], bar["owner"], bar["picture"] bar["price"], bar["atmos"], bar["qual"])
+		page = add_bar(bar["name"], bar["desc"], bar["addr"], bar["owner"], bar["price"], bar["atmos"], bar["qual"])
 		for comment in bar["comments"]:
 			add_comment(comment["comment"], comment["user"], page)
 		
@@ -230,7 +230,6 @@ def add_bar(name, desc, addr, owner, price, atmos, qual):
 	b.description = desc
 	b.address = addr
 	b.price = price
-	b.picture = picture
 	b.atmosphere = atmos
 	b.quality = qual
 	b.save()

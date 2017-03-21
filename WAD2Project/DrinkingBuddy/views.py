@@ -91,6 +91,8 @@ def bar(request, page_name_slug):
         #ready to pass them with render
 		page = Page.objects.get(slug = page_name_slug)
 		context_dict['page'] = page
+		postcode = page.address.split(", ")[1]
+		context_dict['postcode']=postcode
 		#Adds all comments for the bar to the context dictionary
 		comments = Comment.objects.filter(page=page)
 		context_dict["comments"] = comments
