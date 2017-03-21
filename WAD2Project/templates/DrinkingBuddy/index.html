@@ -22,10 +22,11 @@
     <div class="col-md-4">
 
       <!-- Search box. -->
-      <form action="./search-result.html" method="post" accept-charset="utf-8" class="form" role="form">
+      <form action="{% url 'barPages' %}" method="post" accept-charset="utf-8" class="form" role="form">
+	  {% csrf_token %}
       <div id="custom-search-input">
         <div class="input-group col-md-12">
-          <input type="text" class="form-control input-lg" placeholder="Search for bars..." />
+          <input type="text" class="form-control input-lg" name="search_term" placeholder="Search for bars..." />
           <span class="input-group-btn">
             <button class="btn btn-info btn-lg" type="submit">
               <i class="glyphicon glyphicon-search"></i>

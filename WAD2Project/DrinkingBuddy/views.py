@@ -5,6 +5,7 @@ from DrinkingBuddy.forms import UserForm, UserProfileForm, CommentForm, PageForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
+from django.db.models import Q
 
 
 def index(request):
@@ -24,7 +25,7 @@ def barPages(request):
     context_dict = {}
     if request.method == "POST":
         search_term = request.POST.get("search_term")
-        page_list = Page.objects.filter(Q(name__icontains=search_term) | Q(description__icontains=search_term))
+        page_list = Page.objects.filter(Q(name__icontains=search_term) | Q(description__icontains=search_term) | Q(address__icontains=search_term))
     else:
 	    page_list = Page.objects.all()
     context_dict["pages"] = page_list

@@ -17,7 +17,7 @@ body {
 
 .home img {
   height: 130%;
-  width: 55%;
+  width: auto;
 }
 
 
@@ -96,8 +96,8 @@ div.bars {
 }
 
 #glass {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
 }
 
 /*
@@ -118,3 +118,18 @@ legend{
 	font-weight:bold;
 }
 
+/*
+ * Search results
+ */
+img.media-object {
+	max-width: 200px;
+	max-height: 200px;
+}
+
+/*
+ * Bar page
+ */
+.col-md-4 img {
+	max-width: 400px;
+	max-height: 400px;
+}
