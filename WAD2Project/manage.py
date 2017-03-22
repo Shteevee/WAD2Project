@@ -1,8 +1,6 @@
 #!/usr/bin/env python2.7
 import os
 import sys
-from django.core.mail import EmailMessage
-
 
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "WAD2Project.settings")
@@ -22,6 +20,3 @@ if __name__ == "__main__":
             )
         raise
     execute_from_command_line(sys.argv)
-
-email = EmailMessage('Subject', 'Body', to=['DrinkingBuddyTeamE@gmail.com'])
-email.send()

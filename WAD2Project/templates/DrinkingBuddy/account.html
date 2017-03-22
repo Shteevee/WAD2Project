@@ -1,0 +1,29 @@
+{% extends 'DrinkingBuddy/base.html' %}
+{% load staticfiles %}
+
+{% block main_block %}
+  <div class="row">
+    {% if profile %}
+	  <div class="col-md-4">
+        <!-- Profile image. -->
+	    {% if page.picture %}
+        <img class="profile_image" src="{{ profile.picture.url }}">
+	    {% else %}
+	    <img class="profile_image" src="{% static 'images/no-user-image.png' %}">
+	    {% endif %}
+      </div>
+      <div class="col-md-8">
+	    <h2>{{ profile.user.username }}</h2>
+		<h3>E-mail: {{ profile.user.email }}</h3>
+		<h3>Owner: {{ profile.owner }}</h3>
+		{% if profile.owner %}
+		{% if own_bar %}
+		<h3><a href="{% url 'bar' own_bar.slug %}">Your bar</a></h3>
+		{% else %}
+		<a href="{% url 'addBar' %}" class="btn btn-lg btn-danger">Add a bar</a>
+		{% endif %}
+		{% endif %}
+	  </div>
+	{% endif %}
+  </div>
+{% endblock %}

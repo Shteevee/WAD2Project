@@ -11,34 +11,34 @@ def populate():
 	## Should be changed before submission/presentation
 	bar1_comments = [
 		{"comment": "A good bar in my opinion, some people like it, some don't.",
-		 "user": "CommenterA"},
+		 "user": "Darcy"},
 		{"comment": "People have told me good things about this place, but I didn't have a good time.",
-		 "user": "CommenterB"}]
+		 "user": "Ewan"}]
 	bar2_comments = [
 		{"comment": "Terrible bar, far too expensive and it's not even good drinks either.",
-		 "user": "CommenterB"},
+		 "user": "Ewan"},
 		{"comment": "Had a pretty bad time last I was here, wouldn't go again.",
-		 "user": "CommenterC"}]
+		 "user": "Tevhide"}]
 	bar3_comments = [
 		{"comment": "One of the best bars I've ever been to.",
-		 "user": "CommenterC"},
+		 "user": "Tevhide"},
 		{"comment": "Really cheap bar, good drinks, nice people there. Became one of my favourites.",
-		 "user": "CommenterA"}]
+		 "user": "Darcy"}]
 	bar4_comments = [
 		{"comment": "Good beer, good food, nice staff",
-		 "user": "CommenterA"},
+		 "user": "Darcy"},
 		{"comment": "Spacious place, vegan, live music.",
-		 "user": "CommenterC"}]
+		 "user": "Tevhide"}]
 	bar5_comments = [
 		{"comment": "I like this pub for the pure convenience of it and cheap drinks.",
-		 "user": "CommenterB"},
+		 "user": "Ewan"},
 		{"comment": "Their food is good and they have a nice selection of beers.",
-		 "user": "CommenterC"}]
+		 "user": "Tevhide"}]
 	bar6_comments = [
 		{"comment": "I love the music, they seem to do a broad mix and yet I know every third song.",
-		 "user": "CommenterB"},
+		 "user": "Ewan"},
 		{"comment": "It's good to be able to get decent bar snacks until late on.",
-		 "user": "CommenterA"}]
+		 "user": "Darcy"}]
 	
 	users = [
 		{"username": "Adam Murphy",
@@ -86,15 +86,15 @@ def populate():
 		 "email": "barowner3@example.com",
 		 "owner": True},
 		 		 
-		{"username": "CommenterA",
+		{"username": "Darcy",
 		 "password": "1q2w3e4r5t",
 		 "email": "commenter1@example.com",
 		 "owner": False}, 
-		{"username": "CommenterB",
+		{"username": "Ewan",
 		 "password": "1q2w3e4r5t",
 		 "email": "commenter2@example.com",
 		 "owner": False}, 
-		{"username": "CommenterC",
+		{"username": "Tevhide",
 		 "password": "1q2w3e4r5t",
 		 "email": "commenter3@example.com",
 		 "owner": False} ]
@@ -109,20 +109,20 @@ def populate():
 		 "picture": "bar_images/pot_still.jpg",
 		 "comments": bar1_comments},
 		{"name": "Tabac",
-		 "desc": "A second bar.",
+		 "desc": "A bar.",
 		 "addr": "10 Mitchell Lane, G1 3NU",
-		 "price": "1,1,1,1,1",
-		 "atmos": "1,1,1,1,1",
-		 "qual": "1,1,1,1,1",
+		 "price": "1,2,1,2,3,4",
+		 "atmos": "3,2,1,1",
+		 "qual": "2,1,4,3,2",
 		 "owner": "Alan Turing",
 		 "picture": "bar_images/tabac.jpg",
 		 "comments": bar2_comments},
 		 {"name": "Oran Mor",
-		 "desc": "A third bar.",
+		 "desc": "A bar.",
 		 "addr": "731-735 Great Western Road, G12 8QX",
-		 "price": "5,5,5,5,5",
-		 "atmos": "5,5,5,5,5",
-		 "qual": "5,5,5,5,5",
+		 "price": "5,4,5,3,5,5,3",
+		 "atmos": "2,4,3,5",
+		 "qual": "4,5,3,5,1",
 		 "owner": "Marie Curie",
 		 "picture": "bar_images/oran_mor.jpg",
 		 "comments": bar3_comments},
@@ -136,7 +136,7 @@ def populate():
 		 "picture": "bar_images/sloans.jpg",
 		 "comments": bar4_comments},
 		{"name": "The Flying Duck",
-		 "desc": "A second bar.",
+		 "desc": "A bar.",
 		 "addr": "142 Renfield Street, G2 3AU",
 		 "price": "1,1,1,1,1",
 		 "atmos": "1,1,1,1,1",
@@ -145,11 +145,11 @@ def populate():
 		 "picture": "bar_images/flying_duck.jpg",
 		 "comments": bar5_comments},
 		 {"name": "Blackfriars",
-		 "desc": "A third bar.",
+		 "desc": "A bar.",
 		 "addr": "36 Bell Street, G1 1LG ",
-		 "price": "5,5,5,5,5",
-		 "atmos": "5,5,5,5,5",
-		 "qual": "5,5,5,5,5",
+		 "price": "5,4,5,3,5,5,3",
+		 "atmos": "2,4,3,5",
+		 "qual": "4,5,3,5,1",
 		 "owner": "Blaise Pascal",
 		 "picture": "bar_images/oran_mor.jpg",
 		 "comments": bar6_comments},
@@ -161,43 +161,43 @@ def populate():
 		 "qual": "1,2,3,4,5",
 		 "owner": "Isaac Newton",
 		 "picture": "bar_images/curlers.jpg",
-		 "comments": bar1_comments},
+		 "comments": None},
 		{"name": "The Rock",
-		 "desc": "A second bar.",
+		 "desc": "A bar.",
 		 "addr": "205 Hyndland Road, G12 9HE",
 		 "price": "1,1,1,1,1",
 		 "atmos": "1,1,1,1,1",
 		 "qual": "1,1,1,1,1",
 		 "owner": "Felix Browder",
 		 "picture": "bar_images/rock.jpg",
-		 "comments": bar2_comments},
+		 "comments": None},
 		 {"name": "Hummingbird",
-		 "desc": "A third bar.",
+		 "desc": "A bar.",
 		 "addr": "186 Bath Street, G2 4HG",
-		 "price": "5,5,5,5,5",
-		 "atmos": "5,5,5,5,5",
-		 "qual": "5,5,5,5,5",
+		 "price": "5,4,5,3,5,5,3",
+		 "atmos": "2,4,3,5",
+		 "qual": "4,5,3,5,1",
 		 "owner": "David Blackwell",
 		 "picture": "bar_images/humming_bird.jpg",
-		 "comments": bar3_comments},
+		 "comments": None},
 		 {"name": "The Sparkle Horse",
-		 "desc": "A third bar.",
+		 "desc": "A bar.",
 		 "addr": "16 Dowanhill Street, G11 5QS",
 		 "price": "5,5,5,5,5",
 		 "atmos": "5,5,5,5,5",
 		 "qual": "5,5,5,5,5",
 		 "owner": "Ronald Graham",
 		 "picture": "bar_images/sparkle_horse.jpg",
-		 "comments": bar4_comments},
+		 "comments": None},
 		 {"name": "The Lab",
-		 "desc": "A third bar.",
+		 "desc": "A bar.",
 		 "addr": "26 Springfield Court, G1  3DQ",
 		 "price": "5,5,5,5,5",
 		 "atmos": "5,5,5,5,5",
 		 "qual": "5,5,5,5,5",
 		 "owner": "Jesse Douglas",
 		 "picture": "bar_images/lab.jpg",
-		 "comments": bar5_comments},
+		 "comments": None},
 		 ]
 		 
 	for user in users:
@@ -216,8 +216,9 @@ def populate():
 		
 def add_user(username, password, email, owner):
 	u, created = User.objects.get_or_create(username=username, email=email)
-	if not created:
+	if created:
 		u.set_password(password)
+	u.save()
 	up = UserProfile.objects.get_or_create(user=u)[0]
 	up.owner = owner
 	up.save()

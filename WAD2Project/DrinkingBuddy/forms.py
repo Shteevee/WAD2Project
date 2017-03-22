@@ -4,19 +4,22 @@ from DrinkingBuddy.models import Page, UserProfile, Comment
 
 
 class PageForm(forms.ModelForm):
-    name = forms.CharField(max_length = Page.name_max_length,
+    name = forms.CharField(widget = forms.TextInput(attrs={"class": "form-control input-lg"}), 
+                           max_length = Page.name_max_length,
                            help_text = "Please enter the bar's name.")
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
     # The address needs separated into how address forms look
-    address = forms.CharField(max_length = Page.addr_max_length,
+    address = forms.CharField(widget = forms.TextInput(attrs={"class": "form-control input-lg"}), 
+                              max_length = Page.addr_max_length,
                               help_text = "Please enter adress.")
-    description = forms.CharField(max_length = Page.desc_max_length,
+    description = forms.CharField(widget = forms.TextInput(attrs={"class": "form-control input-lg"}), 
+                                  max_length = Page.desc_max_length,
                                   help_text = "Please enter a description.")
-    picture = forms.ImageField(help_text = "Please add an image of the bar.")
+    picture = forms.ImageField(help_text = "Please add an image of the bar.", required=False)
 
-    price = forms.CharField(widget=forms.HiddenInput(), initial="")
-    quality = forms.CharField(widget=forms.HiddenInput(), initial="")
-    atmosphere = forms.CharField(widget=forms.HiddenInput(), initial="")
+    price = forms.CharField(widget=forms.HiddenInput(), initial="", required=False)
+    quality = forms.CharField(widget=forms.HiddenInput(), initial="", required=False)
+    atmosphere = forms.CharField(widget=forms.HiddenInput(), initial="", required=False)
     avgPrice = forms.CharField(widget=forms.HiddenInput(), initial=0)
     avgQuality = forms.CharField(widget=forms.HiddenInput(), initial=0)
     avgAtmos = forms.CharField(widget=forms.HiddenInput(), initial=0)

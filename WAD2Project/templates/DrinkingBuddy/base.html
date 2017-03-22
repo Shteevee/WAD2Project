@@ -39,6 +39,7 @@
     <div id="navbar" class="navbar-collapse collapse">
 	  {% if user.is_authenticated %}
 	    <form class="navbar-form navbar-right" action="{% url 'logOut' %}">
+		<a href="{% url 'myAccount' %}" class="btn btn-success">My Account</a>
 	    <button type="submit" class="btn btn-success">Log Out</button>
 	    </form>
 	  {% else %}

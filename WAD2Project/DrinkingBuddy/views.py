@@ -18,40 +18,18 @@ def index(request):
 
 
 def contactUs(request):
-	if request.method == "POST":
-		# Use our send_mail() helper method to send a message.
-		firstname = request.POST.get("fname")
-		lastname = request.POST.get("lname")
-		email = request.POST.get("email")
-		subject = request.POST.get("subject")
-		message = request.POST.get("message")
-		
-		# Send the message!
-		send_mail(firstname, lastname, email, subject, message)
-		
-	return render(request, "DrinkingBuddy/contactUs.html")
+    return render(request, "DrinkingBuddy/contactUs.html", {})
 
 
 def barPages(request):
-	context_dict = {}
-	if request.method == "POST":
-		search_term = request.POST.get("search_term")
-		page_list = Page.objects.filter(Q(name__icontains=search_term) | Q(description__icontains=search_term) | Q(address__icontains=search_term))
-		
-		if len(page_list) == len(Page.objects.all()):
-			page_list = Page.objects.all()
-			context_dict["pages"] = page_list
-			return render(request, "DrinkingBuddy/barPages.html", context_dict)
-		elif len(page_list) > 0:
-			# Assume the first entry in the list is the one we want to redirect to.
-			first_bar = page_list[0]
-			return bar(request, first_bar.slug)
-		
-	else:
-		page_list = Page.objects.all()
-		
-	context_dict["pages"] = page_list
-	return render(request, "DrinkingBuddy/barPages.html", context_dict)
+    context_dict = {}
+    if request.method == "POST":
+        search_term = request.POST.get("search_term")
+        page_list = Page.objects.filter(Q(name__icontains=search_term) | Q(description__icontains=search_term) | Q(address__icontains=search_term))
+    else:
+        page_list = Page.objects.all().order_by("-avgRating")
+    context_dict["pages"] = page_list
+    return render(request, "DrinkingBuddy/barPages.html", context_dict)
 
 
 def signUp(request):
@@ -70,6 +48,8 @@ def signUp(request):
 				profile.pictures = request.FILES["picture"]
 			profile.save()
 			registered = True
+			userLogin = authenticate(username=user.username,password=user.password)
+			login(request, user)
 			return HttpResponseRedirect(reverse('index'))
 		else:
 			print(user_form.errors, profile_form.errors)
@@ -153,31 +133,34 @@ def bar(request, page_name_slug):
 
 
 @login_required
-def addBar(request, user_name_slug):
+def addBar(request):
 	form = PageForm()
 	if request.method == "POST":
-		form = CategoryForm(request.POST)
+		form = PageForm(request.POST)
 		if form.is_valid():
 			page = form.save(commit=False)
-			page.owner = request.user
+			page.owner = UserProfile.objects.get(user = request.user)
 			page.save()
 			return myAccount(request)
 		else:
 			print(form.errors)
-	return render(request, "DrinkingBuddy/myAccount/addBar.html", {"form": form})
+	return render(request, "DrinkingBuddy/add-bar.html", {"page_form": form})
 
 
 @login_required
-def myAccount(request, user_name_slug):
+def myAccount(request):
 	context_dict = {}
 	try:
 		#Puts UserProfile object into context dictionary
-		profile = UserProfile.objects.get(slug = user_name_slug)
+		profile = UserProfile.objects.get(user = request.user)
 		context_dict["profile"] = profile
 		if profile.owner:
-			own_bar = Page.objects.get(owner = profile)
-			context_dict["own_bar"] = own_bar
+			try:
+				own_bar = Page.objects.get(owner = profile)
+				context_dict["own_bar"] = own_bar
+			except Page.DoesNotExist:
+				context_dict["own_bar"] = None
 	except UserProfile.DoesNotExist:
 		context_dict["profile"] = None
 		context_dict["own_bar"] = None
-	return render(request, "DrinkingBuddy/myAccount.html", context_dict)
+	return render(request, "DrinkingBuddy/account.html", context_dict)
