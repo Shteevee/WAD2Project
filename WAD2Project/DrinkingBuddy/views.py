@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.db.models import Q
-
+from DrinkingBuddy.contactus import send_mail
 
 def index(request):
     context_dict = {}
@@ -18,7 +18,18 @@ def index(request):
 
 
 def contactUs(request):
-    return render(request, "DrinkingBuddy/contactUs.html", {})
+	if request.method == "POST":
+		# Use our send_mail() helper method to send a message.
+		firstname = request.POST.get("fname")
+		lastname = request.POST.get("lname")
+		email = request.POST.get("email")
+		subject = request.POST.get("subject")
+		message = request.POST.get("message")
+		
+		# Send the message!
+		send_mail(firstname, lastname, email, subject, message)
+		
+	return render(request, "DrinkingBuddy/contactUs.html")
 
 
 def barPages(request):
