@@ -203,7 +203,7 @@ def populate():
 	for user in users:
 		add_user(user["username"], user["password"], user["email"], user["owner"])
 	for bar in bars:
-		page = add_bar(bar["name"], bar["desc"], bar["addr"], bar["owner"], bar["price"], bar["atmos"], bar["qual"])
+		page = add_bar(bar["name"], bar["desc"], bar["addr"], bar["owner"], bar["price"], bar["atmos"], bar["qual"], bar["picture"])
 		for comment in bar["comments"]:
 			add_comment(comment["comment"], comment["user"], page)
 		
@@ -224,7 +224,7 @@ def add_user(username, password, email, owner):
 	return up
 	
 		
-def add_bar(name, desc, addr, owner, price, atmos, qual):
+def add_bar(name, desc, addr, owner, price, atmos, qual, picture):
 	owner = UserProfile.objects.get(user=User.objects.get(username=owner))
 	b = Page.objects.get_or_create(name=name, owner=owner)[0]
 	b.description = desc
@@ -232,6 +232,7 @@ def add_bar(name, desc, addr, owner, price, atmos, qual):
 	b.price = price
 	b.atmosphere = atmos
 	b.quality = qual
+	b.picture = picture
 	b.save()
 	return b
 	

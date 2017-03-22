@@ -131,7 +131,5 @@ STATICFILES_DIRS = [STATIC_DIR, ]
 
 # default static files settings for PythonAnywhere.
 # see https://help.pythonanywhere.com/pages/DjangoStaticFiles for more info
-MEDIA_ROOT = u'/home/Shteevee/WAD2Project/WAD2Project/media'
 MEDIA_URL = '/media/'
-STATIC_ROOT = u'/home/Shteevee/WAD2Project/WAD2Project/static'
 STATIC_URL = '/static/'

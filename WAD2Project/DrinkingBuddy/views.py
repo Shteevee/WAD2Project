@@ -33,14 +33,25 @@ def contactUs(request):
 
 
 def barPages(request):
-    context_dict = {}
-    if request.method == "POST":
-        search_term = request.POST.get("search_term")
-        page_list = Page.objects.filter(Q(name__icontains=search_term) | Q(description__icontains=search_term) | Q(address__icontains=search_term))
-    else:
-	    page_list = Page.objects.all()
-    context_dict["pages"] = page_list
-    return render(request, "DrinkingBuddy/barPages.html", context_dict)
+	context_dict = {}
+	if request.method == "POST":
+		search_term = request.POST.get("search_term")
+		page_list = Page.objects.filter(Q(name__icontains=search_term) | Q(description__icontains=search_term) | Q(address__icontains=search_term))
+		
+		if len(page_list) == len(Page.objects.all()):
+			page_list = Page.objects.all()
+			context_dict["pages"] = page_list
+			return render(request, "DrinkingBuddy/barPages.html", context_dict)
+		elif len(page_list) > 0:
+			# Assume the first entry in the list is the one we want to redirect to.
+			first_bar = page_list[0]
+			return bar(request, first_bar.slug)
+		
+	else:
+		page_list = Page.objects.all()
+		
+	context_dict["pages"] = page_list
+	return render(request, "DrinkingBuddy/barPages.html", context_dict)
 
 
 def signUp(request):
