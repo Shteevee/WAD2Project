@@ -21,7 +21,11 @@ MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 
+<<<<<<< HEAD
 STATIC_ROOT = "/home/Shteevee/WAD2Project/WAD2Project/WAD2Project/static"
+=======
+STATIC_ROOT = "/home/Shteevee/WAD2Project/WAD2Project/WAD2Project/assets"
+>>>>>>> ac99802ac36d0ab9ba49b45e8fb313b8fe0cb455
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
@@ -31,8 +35,12 @@ SECRET_KEY = 's7s7m(#(_r_-pv-8(84tneq=!3o7*8nyir=y-)_#ny8zyp#k(p'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+<<<<<<< HEAD
 ALLOWED_HOSTS = ['shteevee.pythonanywhere.com',
                  '127.0.0.1']
+=======
+ALLOWED_HOSTS = ['shteevee.pythonanywhere.com']
+>>>>>>> ac99802ac36d0ab9ba49b45e8fb313b8fe0cb455
 
 
 # Application definition
