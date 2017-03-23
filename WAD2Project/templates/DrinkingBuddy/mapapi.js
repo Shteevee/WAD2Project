@@ -1,4 +1,4 @@
-		 function getPosition(callback) {
+function getPosition(callback) {
             var geocoder = new google.maps.Geocoder();
             var postcode = "{{ postcode }}";
 
@@ -14,7 +14,7 @@
             });
           }
 
-          function setup_map(latitude, longitude) {
+function setup_map(latitude, longitude) {
             var _position = { lat: latitude, lng: longitude};
 
             var mapOptions = {
@@ -30,7 +30,7 @@
             });
           }
 
-          function go() {
+function go() {
             setup_map(51.5073509, -0.12775829999998223);
 
             document.getElementById("form").onsubmit = function() {
