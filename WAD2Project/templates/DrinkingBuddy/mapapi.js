@@ -1,25 +1,10 @@
-<!doctype html>
-<html>
-
-<head>
-        <style type="text/css">
-        #map
-        {
-          height:400px;
-          width:400px;
-          display:block;
-        }
-      </style>
-      <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDIUMEk4lAYgO72FjqCrinbnPIrt-trHAk"></script>
-      <script type="text/javascript">
-	  
 		 function getPosition(callback) {
             var geocoder = new google.maps.Geocoder();
             var postcode = "{{ postcode }}";
 
-            geocoder.geocode({'address': postcode}, function(results, status) 
-            {   
-              if (status == google.maps.GeocoderStatus.OK) 
+            geocoder.geocode({'address': postcode}, function(results, status)
+            {
+              if (status == google.maps.GeocoderStatus.OK)
               {
                 callback({
                   latt: results[0].geometry.location.lat(),
@@ -29,9 +14,9 @@
             });
           }
 
-          function setup_map(latitude, longitude) { 
+          function setup_map(latitude, longitude) {
             var _position = { lat: latitude, lng: longitude};
-            
+
             var mapOptions = {
               zoom: 16,
               center: _position
@@ -45,7 +30,7 @@
             });
           }
 
-          window.onload = function() {
+          function go() {
             setup_map(51.5073509, -0.12775829999998223);
 
             document.getElementById("form").onsubmit = function() {
@@ -58,6 +43,3 @@
               });
             }
           }
-      </script>  
-   </head>
-</html>

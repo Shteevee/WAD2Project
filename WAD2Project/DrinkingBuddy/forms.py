@@ -4,15 +4,15 @@ from DrinkingBuddy.models import Page, UserProfile, Comment
 
 
 class PageForm(forms.ModelForm):
-    name = forms.CharField(widget = forms.TextInput(attrs={"class": "form-control input-lg"}), 
+    name = forms.CharField(widget = forms.TextInput(attrs={"class": "form-control input-lg"}),
                            max_length = Page.name_max_length,
                            help_text = "Please enter the bar's name.")
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
     # The address needs separated into how address forms look
-    address = forms.CharField(widget = forms.TextInput(attrs={"class": "form-control input-lg"}), 
+    address = forms.CharField(widget = forms.TextInput(attrs={"class": "form-control input-lg"}),
                               max_length = Page.addr_max_length,
                               help_text = "Please enter adress.")
-    description = forms.CharField(widget = forms.TextInput(attrs={"class": "form-control input-lg"}), 
+    description = forms.CharField(widget = forms.TextInput(attrs={"class": "form-control input-lg"}),
                                   max_length = Page.desc_max_length,
                                   help_text = "Please enter a description.")
     picture = forms.ImageField(help_text = "Please add an image of the bar.", required=False)
@@ -41,21 +41,31 @@ class RatingForm(forms.Form):
 
 class CommentForm(forms.ModelForm):
 	comment = forms.CharField(widget=forms.Textarea(attrs={"class": "form-control input-lg"}), max_length = Comment.comment_max_length, label="Comment (max. 200 characters)")
-	
+
 	class Meta:
 		model = Comment
 		fields = ('comment',)
 
-		
+
 class UserForm(forms.ModelForm):
     username = forms.CharField(widget = forms.TextInput(attrs={"class": "form-control input-lg"}))
     email = forms.CharField(widget = forms.TextInput(attrs={"class": "form-control input-lg"}))
     password = forms.CharField(widget = forms.PasswordInput(attrs={"class": "form-control input-lg"}))
-	
+    verify_password = forms.CharField(widget = forms.PasswordInput(attrs={"class": "form-control input-lg", "placeholder": "Re-enter password"}))
+
     class Meta:
         model = User
         fields = ('username', 'email', 'password')
 
+    def clean_verify_password(self):
+        password1 = self.cleaned_data.get("password")
+        password2 = self.cleaned_data.get("verify_password")
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError(
+                ('Password mismatch.'),
+                code='password_mismatch',
+            )
+        return password2
 
 class UserProfileForm(forms.ModelForm):
     class Meta:

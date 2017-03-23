@@ -21,7 +21,7 @@ class UserProfile(models.Model):
     def __unicode__(self):
         return self.user.username
 
-		
+
 class Page(models.Model):
     name_max_length = 50
     desc_max_length = 200
@@ -53,17 +53,20 @@ class Page(models.Model):
         if self.price != "":
             pRatings = self.price.split(",")
             for rating in pRatings:
-                self.avgPrice += int(rating)
+                if rating != '':
+                    self.avgPrice += int(rating)
             self.avgPrice = self.avgPrice / len(pRatings)
         if self.quality != "":
             qRatings = self.quality.split(",")
             for rating in qRatings:
-                self.avgQuality += int(rating)
+                if rating != '':
+                    self.avgQuality += int(rating)
             self.avgQuality = self.avgQuality / len(qRatings)
         if self.atmosphere != "":
             aRatings = self.atmosphere.split(",")
             for rating in aRatings:
-                self.avgAtmos += int(rating)
+                if rating != '':
+                    self.avgAtmos += int(rating)
             self.avgAtmos = self.avgAtmos / len(aRatings)
         self.avgRating = (self.avgPrice + self.avgQuality + self.avgAtmos) / 3
         super(Page, self).save(*args, **kwargs)

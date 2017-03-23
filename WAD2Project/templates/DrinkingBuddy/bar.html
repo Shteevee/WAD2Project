@@ -13,7 +13,7 @@
 	  {% if page.picture %}
       <img class="bar_image" src="{{ page.picture.url }}">
 	  {% else %}
-	  <img class="bar_image" src="{% static 'images/no-image.png' %}">
+	  <img class="bar_image" src="{% static 'images/no-image.PNG' %}">
 	  {% endif %}
     </div>
 
@@ -25,6 +25,17 @@
       <h3>Bar owner: {{ page.owner }}</h3>
     </div>
 
+    <div class="col-md-4">
+        <head>
+         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDIUMEk4lAYgO72FjqCrinbnPIrt-trHAk"></script>
+         <script type="text/javascript" src="mapapi.js"></script>
+        </head>
+        <body>
+         <script>
+            go();
+         </script>
+        </body>
+    </div>
   </div>
 
   <!-- Row 2. -->
@@ -106,7 +117,7 @@
     </div>
 
   </div>
-  
+
   <!-- Row 3 -->
   <div class="row">
     <!-- Left -->
@@ -131,7 +142,7 @@
 	  {% endif %}
       </div>
 	</form>
-  </div>	
+  </div>
   {% endif %}
-  
+
 {% endblock %}
