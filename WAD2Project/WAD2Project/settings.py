@@ -21,7 +21,7 @@ MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 
-STATIC_ROOT = "/home/Shteevee/WAD2Project/WAD2Project/WAD2Project/static"
+STATIC_ROOT = '/home/Shteevee/WAD2Project/WAD2Project/WAD2Project/static'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
