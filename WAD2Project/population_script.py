@@ -39,7 +39,7 @@ def populate():
 		 "user": "Ewan"},
 		{"comment": "It's good to be able to get decent bar snacks until late on.",
 		 "user": "Darcy"}]
-	
+
 	users = [
 		{"username": "Adam Murphy",
 		 "password": "1q2w3e4r5t",
@@ -48,11 +48,11 @@ def populate():
 		{"username": "Alan Turing",
 		 "password": "1q2w3e4r5t",
 		 "email": "barowner2@example.com",
-		 "owner": True}, 
+		 "owner": True},
 		{"username": "Marie Curie",
 		 "password": "1q2w3e4r5t",
 		 "email": "barowner3@example.com",
-		 "owner": True}, 
+		 "owner": True},
 		 {"username": "Albert Einstein",
 		 "password": "1q2w3e4r5t",
 		 "email": "barowner@example.com",
@@ -60,11 +60,11 @@ def populate():
 		{"username": "Nikola Tesla",
 		 "password": "1q2w3e4r5t",
 		 "email": "barowner2@example.com",
-		 "owner": True}, 
+		 "owner": True},
 		{"username": "Blaise Pascal",
 		 "password": "1q2w3e4r5t",
 		 "email": "barowner3@example.com",
-		 "owner": True}, 
+		 "owner": True},
 		 {"username": "Isaac Newton",
 		 "password": "1q2w3e4r5t",
 		 "email": "barowner@example.com",
@@ -72,28 +72,28 @@ def populate():
 		{"username": "Felix Browder",
 		 "password": "1q2w3e4r5t",
 		 "email": "barowner2@example.com",
-		 "owner": True}, 
+		 "owner": True},
 		{"username": "David Blackwell",
 		 "password": "1q2w3e4r5t",
 		 "email": "barowner3@example.com",
-		 "owner": True}, 
+		 "owner": True},
 		 {"username": "Ronald Graham",
 		 "password": "1q2w3e4r5t",
 		 "email": "barowner3@example.com",
-		 "owner": True}, 
+		 "owner": True},
 		 {"username": "Jesse Douglas",
 		 "password": "1q2w3e4r5t",
 		 "email": "barowner3@example.com",
 		 "owner": True},
-		 		 
+
 		{"username": "Darcy",
 		 "password": "1q2w3e4r5t",
 		 "email": "commenter1@example.com",
-		 "owner": False}, 
+		 "owner": False},
 		{"username": "Ewan",
 		 "password": "1q2w3e4r5t",
 		 "email": "commenter2@example.com",
-		 "owner": False}, 
+		 "owner": False},
 		{"username": "Tevhide",
 		 "password": "1q2w3e4r5t",
 		 "email": "commenter3@example.com",
@@ -161,7 +161,7 @@ def populate():
 		 "qual": "1,2,3,4,5",
 		 "owner": "Isaac Newton",
 		 "picture": "bar_images/curlers.jpg",
-		 "comments": None},
+		 "comments": []},
 		{"name": "The Rock",
 		 "desc": "A bar.",
 		 "addr": "205 Hyndland Road, G12 9HE",
@@ -170,7 +170,7 @@ def populate():
 		 "qual": "1,1,1,1,1",
 		 "owner": "Felix Browder",
 		 "picture": "bar_images/rock.jpg",
-		 "comments": None},
+		 "comments": []},
 		 {"name": "Hummingbird",
 		 "desc": "A bar.",
 		 "addr": "186 Bath Street, G2 4HG",
@@ -179,7 +179,7 @@ def populate():
 		 "qual": "4,5,3,5,1",
 		 "owner": "David Blackwell",
 		 "picture": "bar_images/humming_bird.jpg",
-		 "comments": None},
+		 "comments": []},
 		 {"name": "The Sparkle Horse",
 		 "desc": "A bar.",
 		 "addr": "16 Dowanhill Street, G11 5QS",
@@ -188,7 +188,7 @@ def populate():
 		 "qual": "5,5,5,5,5",
 		 "owner": "Ronald Graham",
 		 "picture": "bar_images/sparkle_horse.jpg",
-		 "comments": None},
+		 "comments": []},
 		 {"name": "The Lab",
 		 "desc": "A bar.",
 		 "addr": "26 Springfield Court, G1  3DQ",
@@ -197,23 +197,23 @@ def populate():
 		 "qual": "5,5,5,5,5",
 		 "owner": "Jesse Douglas",
 		 "picture": "bar_images/lab.jpg",
-		 "comments": None},
+		 "comments": []},
 		 ]
-		 
+
 	for user in users:
 		add_user(user["username"], user["password"], user["email"], user["owner"])
 	for bar in bars:
 		page = add_bar(bar["name"], bar["desc"], bar["addr"], bar["owner"], bar["price"], bar["atmos"], bar["qual"], bar["picture"])
 		for comment in bar["comments"]:
 			add_comment(comment["comment"], comment["user"], page)
-		
+
 	for b in Page.objects.all():
 		print("- {0}".format(unicode(b)))
 		for c in Comment.objects.filter(page=b):
 			print("-- {0}".format(unicode(c)))
 	for u in UserProfile.objects.all():
 		print("- {0}".format(unicode(u)))
-		
+
 def add_user(username, password, email, owner):
 	u, created = User.objects.get_or_create(username=username, email=email)
 	if created:
@@ -223,8 +223,8 @@ def add_user(username, password, email, owner):
 	up.owner = owner
 	up.save()
 	return up
-	
-		
+
+
 def add_bar(name, desc, addr, owner, price, atmos, qual, picture):
 	owner = UserProfile.objects.get(user=User.objects.get(username=owner))
 	b = Page.objects.get_or_create(name=name, owner=owner)[0]
@@ -236,13 +236,13 @@ def add_bar(name, desc, addr, owner, price, atmos, qual, picture):
 	b.picture = picture
 	b.save()
 	return b
-	
+
 def add_comment(comment, user, page):
 	commenter = UserProfile.objects.get(user=User.objects.get(username=user))
 	c = Comment.objects.get_or_create(comment=comment, commenter=commenter, page=page)[0]
 	c.save()
 	return c
-	
+
 if __name__ == '__main__':
 	print("Starting Drinking Buddy population script...")
 	populate()

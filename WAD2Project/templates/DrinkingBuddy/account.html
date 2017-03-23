@@ -6,7 +6,7 @@
     {% if profile %}
 	  <div class="col-md-4">
         <!-- Profile image. -->
-	    {% if page.picture %}
+	    {% if profile.picture %}
         <img class="profile_image" src="{{ profile.picture.url }}">
 	    {% else %}
 	    <img class="profile_image" src="{% static 'images/no-user-image.png' %}">

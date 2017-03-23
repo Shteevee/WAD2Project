@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.db.models import Q
-from DrinkingBuddy.contactus import send_mail
+#from DrinkingBuddy.contactus import send_mail
 
 def index(request):
     context_dict = {}
@@ -25,7 +25,7 @@ def barPages(request):
     context_dict = {}
     if request.method == "POST":
         search_term = request.POST.get("search_term")
-        page_list = Page.objects.filter(Q(name__icontains=search_term) | Q(description__icontains=search_term) | Q(address__icontains=search_term))
+        page_list = Page.objects.filter(Q(name__icontains=search_term) | Q(description__icontains=search_term) | Q(address__icontains=search_term)).order_by("-avgRating")
     else:
         page_list = Page.objects.all().order_by("-avgRating")
     context_dict["pages"] = page_list
@@ -37,15 +37,14 @@ def signUp(request):
 	registered = False
 	if request.method == "POST":
 		user_form = UserForm(data=request.POST)
-		profile_form = UserProfileForm(data=request.POST)
+		profile_form = UserProfileForm(request.POST, request.FILES)
 		if user_form.is_valid() and profile_form.is_valid():
 			user = user_form.save()
 			user.set_password(user.password)
 			user.save()
 			profile = profile_form.save(commit=False)
 			profile.user = user
-			if "picture" in request.FILES:
-				profile.pictures = request.FILES["picture"]
+
 			profile.save()
 			registered = True
 			userLogin = authenticate(username=user.username,password=user.password)
@@ -136,7 +135,7 @@ def bar(request, page_name_slug):
 def addBar(request):
 	form = PageForm()
 	if request.method == "POST":
-		form = PageForm(request.POST)
+		form = PageForm(request.POST, request.FILES)
 		if form.is_valid():
 			page = form.save(commit=False)
 			page.owner = UserProfile.objects.get(user = request.user)
