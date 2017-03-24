@@ -71,3 +71,9 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('picture', 'owner')
+
+class UserEditorForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('picture',)
+        exclude = ('owner',)

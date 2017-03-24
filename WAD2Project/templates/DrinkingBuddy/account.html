@@ -23,6 +23,13 @@
 		<a href="{% url 'addBar' %}" class="btn btn-lg btn-danger">Add a bar</a>
 		{% endif %}
 		{% endif %}
+
+		<form action="{% url 'myAccount' %}" enctype = "multipart/form-data" method="post" accept-charset="utf-8" class="form" role="form">
+		    {% csrf_token %}
+		    {{ user_editor_form.as_p }}
+		    <p><button class="btn btn-lg btn-danger" type="submit">Change Picture</button></p>
+        </form>
+
 	  </div>
 	{% endif %}
   </div>

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from DrinkingBuddy.models import Page, Comment, UserProfile
-from DrinkingBuddy.forms import UserForm, UserProfileForm, CommentForm, PageForm, RatingForm
+from DrinkingBuddy.forms import UserForm, UserProfileForm, CommentForm, PageForm, RatingForm, UserEditorForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
@@ -149,16 +149,28 @@ def addBar(request):
 @login_required
 def myAccount(request):
 	context_dict = {}
+
 	try:
 		#Puts UserProfile object into context dictionary
 		profile = UserProfile.objects.get(user = request.user)
 		context_dict["profile"] = profile
+		form = UserEditorForm()
+		context_dict["user_editor_form"] = form
 		if profile.owner:
 			try:
 				own_bar = Page.objects.get(owner = profile)
 				context_dict["own_bar"] = own_bar
 			except Page.DoesNotExist:
 				context_dict["own_bar"] = None
+
+		if request.method =="POST":
+		    form = UserEditorForm(request.POST, request.FILES)
+		    if form.is_valid():
+		        if 'picture' in request.FILES:
+		            profile.picture = request.FILES['picture']
+		            profile.save()
+		            return myAccount(request)
+
 	except UserProfile.DoesNotExist:
 		context_dict["profile"] = None
 		context_dict["own_bar"] = None
