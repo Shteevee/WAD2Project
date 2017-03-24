@@ -106,3 +106,61 @@ class BarViewTest(TestCase):
         response = self.client.get(reverse('bar', args = [bar1.slug]))
         self.assertContains(response, "New comment")
         self.assertQuerysetEqual(response.context['comments'], ['<Comment: temporary: "New comment...">'])
+
+    def test_bar_with_login(self):
+        user1 = User.objects.create_user('temporary', 'temporary@gmail.com', 'temporary')
+        user1.save()
+        user2 = User.objects.create_user('temporary2', 'temporary2@gmail.com', 'temporary2')
+        user2.save()
+        profile1 = UserProfile(user=user1, owner=True)
+        profile1.save()
+        profile2 = UserProfile(user=user2, owner=True)
+        profile2.save()
+        bar1 = Page(name ="bar1", description = "", address = "", owner=profile1)
+        bar1.save()
+
+        self.client.login(username='temporary2', password='temporary2')
+        response = self.client.get(reverse('bar', args = [bar1.slug]))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Submit Comment")
+        self.assertContains(response, "Submit Rating")
+
+    def test_bar_with_owner_login(self):
+        user1 = User.objects.create_user('temporary', 'temporary@gmail.com', 'temporary')
+        user1.save()
+        profile1 = UserProfile(user=user1, owner=True)
+        profile1.save()
+        bar1 = Page(name ="bar1", description = "", address = "", owner=profile1)
+        bar1.save()
+
+        self.client.login(username='temporary', password='temporary')
+        response = self.client.get(reverse('bar', args = [bar1.slug]))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Change Picture")
+
+
+class MyAccountViewTest(TestCase):
+
+    def test_account_bar_owner(self):
+        user1 = User.objects.create_user('temporary', 'temporary@gmail.com', 'temporary')
+        user1.save()
+        profile1 = UserProfile(user=user1, owner=True)
+        profile1.save()
+        bar1 = Page(name ="bar1", description = "", address = "", owner=profile1)
+        bar1.save()
+
+        self.client.login(username='temporary', password='temporary')
+        response = self.client.get(reverse('myAccount'))
+        self.assertEquals(response.status_code, 200)
+        self.assertContains(response, "Your bar")
+
+    def test_account_not_owner(self):
+        user1 = User.objects.create_user('temporary', 'temporary@gmail.com', 'temporary')
+        user1.save()
+        profile1 = UserProfile(user=user1, owner=True)
+        profile1.save()
+
+        self.client.login(username='temporary', password='temporary')
+        response = self.client.get(reverse('myAccount'))
+        self.assertEquals(response.status_code, 200)
+        self.assertContains(response, "Change Picture")
