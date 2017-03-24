@@ -92,6 +92,7 @@ def bar(request, page_name_slug):
         #ready to pass them with render
 		page = Page.objects.get(slug = page_name_slug)
 		context_dict['page'] = page
+		#Postcode to be used my mapsapi
 		postcode = page.address.split(", ")[len(page.address.split(", "))-1]
 		context_dict['postcode']=postcode
 		#Adds all comments for the bar to the context dictionary
@@ -128,14 +129,15 @@ def bar(request, page_name_slug):
 				comment.page = page
 				comment.commenter = UserProfile.objects.get(user=request.user)
 				comment.save()
-				## Program will continue to return statement at bottom of function
 			else:
 				print(cform.errors)
 
+            #get the image from the form and set it
 			editForm = PageEditorForm(request.POST, request.FILES)
 			if editForm.is_valid():
-			    if 'picture' in request.FILES:
-			        page.picture = request.FILES['picture']
+			    print request.FILES
+			    if 'eform-picture' in request.FILES:
+			        page.picture = request.FILES['eform-picture']
 		            page.save()
 
 
