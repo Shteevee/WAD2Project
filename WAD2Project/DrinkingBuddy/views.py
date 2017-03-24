@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from DrinkingBuddy.models import Page, Comment, UserProfile
-from DrinkingBuddy.forms import UserForm, UserProfileForm, CommentForm, PageForm, RatingForm, UserEditorForm
+from DrinkingBuddy.forms import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
@@ -103,6 +103,14 @@ def bar(request, page_name_slug):
 		# Adds comment form to context dict
 		cform = CommentForm(prefix="cform")
 		context_dict["comment_form"] = cform
+		#Checks if the user is the owner, for editting purposes
+		if request.user.is_authenticated:
+		    user_profile = UserProfile.objects.get(user=request.user)
+		    editForm = PageEditorForm(prefix='eform')
+		    if user_profile != None:
+		        if page.owner == user_profile:
+		            context_dict['page_editor_form'] = editForm
+
 		if request.method =="POST":
 			rform = RatingForm(request.POST, prefix="rform")
 			if rform.is_valid():
@@ -123,6 +131,14 @@ def bar(request, page_name_slug):
 				## Program will continue to return statement at bottom of function
 			else:
 				print(cform.errors)
+
+			editForm = PageEditorForm(request.POST, request.FILES)
+			if editForm.is_valid():
+			    if 'picture' in request.FILES:
+			        page.picture = request.FILES['picture']
+		            page.save()
+
+
     except Page.DoesNotExist:
 		context_dict['page'] = None
 		context_dict["comments"] = None

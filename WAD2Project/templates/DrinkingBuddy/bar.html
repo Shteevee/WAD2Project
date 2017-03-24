@@ -20,6 +20,13 @@
 	  {% else %}
 	  <img class="bar_image" src="{% static 'images/no-image.PNG' %}">
 	  {% endif %}
+	  {% if page_editor_form %}
+	        <form action="{% url 'bar' page.slug %}" enctype = "multipart/form-data" method="post" accept-charset="utf-8" class="form" role="form">
+		    {% csrf_token %}
+		    {{ page_editor_form.as_p }}
+		    <p><button class="btn btn-lg btn-danger" type="submit">Change Picture</button></p>
+        </form>
+      {% endif %}
     </div>
 
     <!-- Center. -->

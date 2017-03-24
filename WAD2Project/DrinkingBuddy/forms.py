@@ -77,3 +77,9 @@ class UserEditorForm(forms.ModelForm):
         model = UserProfile
         fields = ('picture',)
         exclude = ('owner',)
+
+class PageEditorForm(forms.ModelForm):
+    class Meta:
+        model = Page
+        fields = ('picture',)
+        exclude = ('name', 'address', 'description', )
